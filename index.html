@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DroidChat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header role="banner" class = "site-header">
+        <img src="robot-icon.png" alt="Robot icon" class="robot-logo"/>
+        <h1 tabindex="0">Welcome to DroidChat</h1>
+        <nav role="navigation" aria-label="Main navigation">
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; align-items: center; gap:8px;">
+                <li>
+                    <a href="https://www.youtube.com/watch?v=R9OHn5ZF4Uo" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none; font-weight: bold;">
+                        How AI Chatbots Work (Video Explanation)
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main role="main">
+        <section id="chat-container" aria-live="polite" aria-label="Chat conversation">
+            <div id="top-bar">
+                <select id="conversation-select" aria-label="Select conversation"></select>
+                <button id="new-conversation-btn" aria-label="Start new conversation">New Conversation</button>
+                <button id="delete-conversation-btn">Delete Tab</button>
+                <button id="clear-button" aria-label="Clear chat">Clear Chat</button>
+                <button id ="export-chat-btn" aria-label="Export current conversation">Export Chat</button>
+            </div>
+
+            <div id="chat-log"></div>
+            
+            <div id="input-area">
+                <textarea
+                    id="user-input"
+                    placeholder="Type your message here"
+                    aria-describedby="input-help"
+                    maxlength="200"
+                    rows="3"
+                    autofocus
+                    autocomplete="off"
+                    required
+                ></textarea>
+                <button id="send-button" aria-label="Send message">Send</button>
+                <button id="stop-button" aria-label="Stop generating response" disabled>Stop</button>
+            </div>
+            <div class="input-gap"></div>
+            <!-- <p id="input-help" class="sr-only">Press Enter or click Send to send your message.</p> -->
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p>Software developed and made solely by Phillip Bilenko | Droidchat v 1.0 (BETA)</p>
+    </footer>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
