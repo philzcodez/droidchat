@@ -336,7 +336,8 @@ sendBtn.addEventListener("click", async () => {
         }
 
         else if (
-            text.includes("weather")
+            text.includes("weather") ||
+            text.includes("temperature")
         ) {
             geminiReply = await fetchWeather();
         }
