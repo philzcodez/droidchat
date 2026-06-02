@@ -202,30 +202,16 @@ async function fetchJoke() {
     }
 }
 
-async function fetchTime() {
-    try {
-        const res = await fetch("https://worldtimeapi.org/api/ip");
+function getDateTime() {
+  const now = new Date();
 
-        if (!res.ok) {
-            throw new Error("Time API failed");
-        }
+  const optionsDate = { year: "numeric", month: "long", day: "numeric" };
+  const optionsTime = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
 
-        const data = await res.json();
+  const date = now.toLocaleDateString(undefined, optionsDate);
+  const time = now.toLocaleTimeString(undefined, optionsTime);
 
-        const now = new Date(data.datetime);
-
-        return `Right now it's ${now.toLocaleString([], {
-            weekday: "long",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        })}`;
-    } catch (err) {
-        console.error("Time fetch error:", err);
-        showErrorMessage("Couldn't fetch time.");
-        return null;
-    }
+  return `🗓️ ${date} | ⏰ ${time}`;
 }
 
 async function fetchWeather() {
@@ -317,7 +303,7 @@ sendBtn.addEventListener("click", async () => {
             text.includes("date") ||
             text.includes("day")
         ) {
-            geminiReply = await fetchTime();
+            geminiReply = await getDateTime();
         }
 
         else if (
