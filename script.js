@@ -25,6 +25,7 @@ document.getElementById("save-api-key-btn").addEventListener("click", () => {
     if (!key) return;
     localStorage.setItem("droidchat_gemini_key", key);
     hideApiKeyModal();
+    initApp();
 });
 
 document.getElementById("api-key-input").addEventListener("keydown", (e) => {
@@ -389,8 +390,12 @@ deleteConversationBtn.addEventListener("click", () => {
 });
 
 // Show API key modal on first load if no key set
-if (!getApiKey()) {
-    showApiKeyModal();
+function initApp() {
+    loadConversations();
 }
 
-loadConversations();
+if (!getApiKey()) {
+    showApiKeyModal();
+} else {
+    initApp();
+}
