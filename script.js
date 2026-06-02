@@ -173,6 +173,8 @@ async function fetchGeminiReply(promptText, signal) {
                 showErrorMessage("Model not found. Check model name.");
             } else if (code === 503) {
                 showErrorMessage("Model overloaded. Try again.");
+            } else if (code === 429) {
+                showErrorMessage("Daily limit reached, try again later");
             } else {
                 showErrorMessage(`API error ${code}. Try again.`);
             }
