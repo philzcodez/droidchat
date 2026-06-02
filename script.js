@@ -7,7 +7,7 @@ const conversationSelect = document.getElementById("conversation-select");
 const newConversationBtn = document.getElementById("new-conversation-btn");
 const exportBtn = document.getElementById("export-chat-btn");
 let abortController = null;
-const API_KEY = "AQ.Ab8RN6KbxXsnlNoBEpIX6uBNFQBCJ_1woGB0SY18LzTxuxqbhw";
+const API_KEY = "AQ.Ab8RN6IgZ6mznb4dqaJvB-xzyPaQgRipstn-8jEi-urMx0EvYQ";
 
 function showErrorMessage(text) {
     addMessage("bot", `⚠️ ${text}`, new Date().toISOString());
@@ -181,17 +181,17 @@ async function fetchGeminiReply(promptText, signal) {
             const errorData = await response.json().catch(() => null);
             console.error("Gemini API error:", errorData);
 
-            const code = errorData?.error?.code;
+            const code = errorData?.error?.code || response.status;
             const message = errorData?.error?.message;
 
-            if (code === 503) {
-                showErrorMessage("Droid is overloaded right now. Try again in a few seconds.");
-            } else if (code === 401) {
-                showErrorMessage("API key issue. Check config.js.");
-            } else if (code === 400) {
-                showErrorMessage("Bad request. Your message format broke my circuits.");
-            } else {
-                showErrorMessage(message || "The droid hit an unknown error.");
+            if (code === 401) {
+                showErrorMessage("API key invalid or not authorized.");
+            } else if (code === 403) {
+                showErrorMessage("Access denied. Key may be restricted.");
+            } else if (code === 404) {
+                showErrorMessage("Model not found. Check model name.");
+            } else if (code === 503) {
+                showErrorMessage("Model overloaded. Try again.");
             }
 
             return null;
