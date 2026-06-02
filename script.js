@@ -202,6 +202,40 @@ async function fetchJoke() {
     }
 }
 
+async function fetchTime() {
+    try {
+        const res = await fetch("https://worldtimeapi.org/api/ip");
+        const data = await res.json();
+
+        const dateTime = new Date(data.datetime);
+
+        return `Right now it's ${dateTime.toLocaleString()}`;
+    } catch (err) {
+        showErrorMessage("Couldn't fetch time.");
+        return null;
+    }
+}
+
+async function fetchWeather() {
+    try {
+        // Greenwich, CT coords
+        const lat = 41.0265;
+        const lon = -73.6282;
+
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const w = data.current_weather;
+
+        return `Current weather: ${w.temperature}°C with wind speed ${w.windspeed} km/h`;
+    } catch (err) {
+        showErrorMessage("Couldn't fetch weather.");
+        return null;
+    }
+}
+
 function showThinkingAnimation() {
     const thinkingMsg = document.createElement("div");
     thinkingMsg.classList.add("message", "bot");
@@ -259,10 +293,28 @@ sendBtn.addEventListener("click", async () => {
     const { thinkingMsg, interval } = showThinkingAnimation();
     let geminiReply = null;
 
+    const text = userText.toLowerCase();
+
     try {
-        if (userText.toLowerCase().includes("tell me a joke")) {
+        if (text.includes("tell me a joke")) {
             geminiReply = await fetchJoke();
-        } else {
+        }
+
+        else if (
+            text.includes("time") ||
+            text.includes("date") ||
+            text.includes("day")
+        ) {
+            geminiReply = await fetchTime();
+        }
+
+        else if (
+            text.includes("weather")
+        ) {
+            geminiReply = await fetchWeather();
+        }
+
+        else {
             geminiReply = await fetchGeminiReply(userText, abortController.signal);
         }
     } catch (err) {
