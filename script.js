@@ -245,7 +245,7 @@ function getDateTime() {
 
 async function fetchWeather() {
     try {
-        // Greenwich, CT coords
+        // Greenwich, CT coords (TEMPORARY)
         const lat = 41.0265;
         const lon = -73.6282;
 
@@ -256,7 +256,11 @@ async function fetchWeather() {
 
         const w = data.current_weather;
 
-        return `Current weather: ${w.temperature}°C with wind speed ${w.windspeed} km/h`;
+        // conversions
+        const tempF = (w.temperature * 9/5) + 32;
+        const windMph = w.windspeed * 0.621371;
+
+        return `Current weather: ${tempF.toFixed(1)}°F with wind speed ${windMph.toFixed(1)} mph`;
     } catch (err) {
         showErrorMessage("Couldn't fetch weather.");
         return null;
