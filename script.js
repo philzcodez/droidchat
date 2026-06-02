@@ -178,9 +178,22 @@ async function fetchGeminiReply(promptText, signal) {
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Gemini API error:", errorText);
-            showErrorMessage("Sorry, I couldn't reach my brain circuits.")
+            const errorData = await response.json().catch(() => null);
+            console.error("Gemini API error:", errorData);
+
+            const code = errorData?.error?.code;
+            const message = errorData?.error?.message;
+
+            if (code === 503) {
+                showErrorMessage("Droid is overloaded right now. Try again in a few seconds.");
+            } else if (code === 401) {
+                showErrorMessage("API key issue. Check config.js.");
+            } else if (code === 400) {
+                showErrorMessage("Bad request. Your message format broke my circuits.");
+            } else {
+                showErrorMessage(message || "The droid hit an unknown error.");
+            }
+
             return null;
         }
 
