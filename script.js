@@ -7,7 +7,7 @@ const conversationSelect = document.getElementById("conversation-select");
 const newConversationBtn = document.getElementById("new-conversation-btn");
 const exportBtn = document.getElementById("export-chat-btn");
 let abortController = null;
-const API_KEY = "AQ.Ab8RN6IgZ6mznb4dqaJvB-xzyPaQgRipstn-8jEi-urMx0EvYQ";
+const API_KEY = "AQ.Ab8RN6KYHDCXWuaBHvfbaRukLsXDP2676yUI09slHYQ_t4wzjw";
 
 function showErrorMessage(text) {
     addMessage("bot", `⚠️ ${text}`, new Date().toISOString());
