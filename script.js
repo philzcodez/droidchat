@@ -205,12 +205,24 @@ async function fetchJoke() {
 async function fetchTime() {
     try {
         const res = await fetch("https://worldtimeapi.org/api/ip");
+
+        if (!res.ok) {
+            throw new Error("Time API failed");
+        }
+
         const data = await res.json();
 
-        const dateTime = new Date(data.datetime);
+        const now = new Date(data.datetime);
 
-        return `Right now it's ${dateTime.toLocaleString()}`;
+        return `Right now it's ${now.toLocaleString([], {
+            weekday: "long",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        })}`;
     } catch (err) {
+        console.error("Time fetch error:", err);
         showErrorMessage("Couldn't fetch time.");
         return null;
     }
