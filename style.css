@@ -465,3 +465,39 @@ footer strong { color: var(--text-secondary); font-weight: 500; }
     #input-area { padding: 10px 12px 14px; }
     .key-btn { font-size: 12px; padding: 6px 10px; }
 }
+
+#model-status {
+    padding: 7px 12px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+    
+    
+    
+    /* display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0; */
+    
+    /* font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-weight: 600; */
+}
+
+#model-status:hover{
+    cursor:pointer;
+}

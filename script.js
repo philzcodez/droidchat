@@ -7,6 +7,11 @@ const conversationSelect = document.getElementById("conversation-select");
 const newConversationBtn = document.getElementById("new-conversation-btn");
 const exportBtn = document.getElementById("export-chat-btn");
 let abortController = null;
+let currentModel = "gemini-3.5-flash";
+    
+const PRIMARY_MODEL = "gemini-3.5-flash";
+const FALLBACK_MODEL = "gemini-3.1-flash-lite";
+const DUMBEST_MODEL = "gemini-2.5-flash-lite";
 
 function getApiKey() {
     return localStorage.getItem("droidchat_gemini_key") || "";
@@ -150,7 +155,8 @@ async function fetchGeminiReply(promptText, signal) {
         return null;
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+
+    const url = `https://generativelanguage.googleapis.com/v1/models/${currentModel}:generateContent?key=${apiKey}`;
     const requestBody = {
         contents: [{ role: "user", parts: [{ text: promptText }] }]
     };
@@ -174,7 +180,28 @@ async function fetchGeminiReply(promptText, signal) {
             } else if (code === 503) {
                 showErrorMessage("Model overloaded. Try again.");
             } else if (code === 429) {
-                showErrorMessage("Daily limit reached, try again later");
+                if (currentModel === PRIMARY_MODEL) {
+                    currentModel = FALLBACK_MODEL;
+                    updateModelStatus();
+
+                    addMessage(
+                        "bot",
+                        "⚠️ Rate limit exceeded. DroidChat automatically switched to a lighter AI model."
+                    );
+
+                    return await fetchGeminiReply(promptText, signal);
+                } else if (currentModel === FALLBACK_MODEL) {
+                    currentModel = DUMBEST_MODEL;
+                    updateModelStatus();
+
+                    addMessage(
+                        "bot",
+                        "⚠️ Rate limit exceeded. DroidChat automatically switched to a lighter AI model."
+                    );
+                    
+                }
+
+                showErrorMessage("All available models are currently rate limited. Please try again later.");
             } else {
                 showErrorMessage(`API error ${code}. Try again.`);
             }
@@ -444,10 +471,25 @@ deleteConversationBtn.addEventListener("click", () => {
 // Show API key modal on first load if no key set
 function initApp() {
     loadConversations();
+    updateModelStatus();
 }
 
 if (!getApiKey()) {
     showApiKeyModal();
 } else {
     initApp();
+}
+
+function updateModelStatus() {
+    const status = document.getElementById("model-status");
+
+    if (!status) return;
+
+    if (currentModel === PRIMARY_MODEL) {
+        status.textContent = "Model: DroidChat Pro";
+    } else if (currentModel === FALLBACK_MODEL){
+        status.textContent = "Model: DroidChat Regular";
+    } else {
+        status.textContent = "Model: DroidChat LITE";
+    }
 }
