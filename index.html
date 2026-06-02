@@ -4,59 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DroidChat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header role="banner" class = "site-header">
-        <img src="robot-icon.png" alt="Robot icon" class="robot-logo"/>
-        <h1 tabindex="0">Welcome to DroidChat</h1>
-        <nav role="navigation" aria-label="Main navigation">
-            <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; align-items: center; gap:8px;">
-                <li>
-                    <!-- <a href="https://www.youtube.com/watch?v=R9OHn5ZF4Uo" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: none; font-weight: bold;">
-                        How AI Chatbots Work (Video Explanation)
-                    </a> -->
-                </li>
-            </ul>
-        </nav>
+    <!-- API Key Modal -->
+    <div id="api-key-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-backdrop"></div>
+        <div class="modal-box">
+            <div class="modal-icon">🤖</div>
+            <h2 id="modal-title">Connect Your Gemini Key</h2>
+            <p>DroidChat uses the Gemini API. Paste your free API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a> to get started.</p>
+            <input type="password" id="api-key-input" placeholder="AIza..." autocomplete="off" spellcheck="false" />
+            <p class="modal-note">Your key is stored only in your browser — never sent anywhere except Google's API.</p>
+            <button id="save-api-key-btn">Save &amp; Start Chatting</button>
+        </div>
+    </div>
+
+    <header role="banner" class="site-header">
+        <div class="header-inner">
+            <div class="header-brand">
+                <img src="robot-icon.png" alt="DroidChat robot logo" class="robot-logo"/>
+                <div class="header-title-group">
+                    <h1>DroidChat</h1>
+                    <span class="header-badge">BETA</span>
+                </div>
+            </div>
+            <button id="change-key-btn" class="key-btn" aria-label="Change API key">🔑 API Key</button>
+        </div>
     </header>
 
     <main role="main">
         <section id="chat-container" aria-live="polite" aria-label="Chat conversation">
             <div id="top-bar">
                 <select id="conversation-select" aria-label="Select conversation"></select>
-                <button id="new-conversation-btn" aria-label="Start new conversation">New Conversation</button>
-                <button id="delete-conversation-btn">Delete Tab</button>
-                <button id="clear-button" aria-label="Clear chat">Clear Chat</button>
-                <button id ="export-chat-btn" aria-label="Export current conversation">Export Chat</button>
+                <button id="new-conversation-btn" aria-label="Start new conversation">+ New</button>
+                <button id="delete-conversation-btn" aria-label="Delete conversation">Delete</button>
+                <button id="clear-button" aria-label="Clear chat">Clear</button>
+                <button id="export-chat-btn" aria-label="Export current conversation">Export</button>
             </div>
 
             <div id="chat-log"></div>
-            
+
             <div id="input-area">
                 <textarea
                     id="user-input"
-                    placeholder="Type your message here"
-                    aria-describedby="input-help"
+                    placeholder="Message Droid..."
+                    aria-label="Message input"
                     maxlength="200"
-                    rows="3"
+                    rows="1"
                     autofocus
                     autocomplete="off"
                     required
                 ></textarea>
-                <button id="send-button" aria-label="Send message">Send</button>
-                <button id="stop-button" aria-label="Stop generating response" disabled>Stop</button>
+                <div class="input-actions">
+                    <span id="char-count">0/200</span>
+                    <button id="send-button" aria-label="Send message">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                    <button id="stop-button" aria-label="Stop generating response" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+                    </button>
+                </div>
             </div>
-            <div class="input-gap"></div>
-            <!-- <p id="input-help" class="sr-only">Press Enter or click Send to send your message.</p> -->
         </section>
     </main>
 
     <footer role="contentinfo">
-        <p>Software developed and made solely by Phillip Bilenko | Droidchat v 1.0 (BETA)</p>
+        <p>Made by <strong>Phillip Bilenko</strong> &nbsp;·&nbsp; DroidChat v1.0 (BETA)</p>
     </footer>
-    <script src="config.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
