@@ -1,3 +1,4 @@
+// could not have made this without the best girlfriend ever, Deleena H Ramchan
 console.log("Js file has loaded");
 
 const chatLog = document.getElementById("chat-log");
